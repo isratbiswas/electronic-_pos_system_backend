@@ -20,7 +20,7 @@ const credentialsLogin = async(payload: Partial<IUser>) => {
   const jwtPayload = {
     userId:isUserExist._id,
     email:isUserExist.email,
-    role: isUserExist.role
+    
   }
    console.log(jwtPayload, "bye");
    const accessToken = generateToken(jwtPayload, envVars.JWT_ACCESS_SECRET, envVars.JWT_ACCESS_EXPIRES)

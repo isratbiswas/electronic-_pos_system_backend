@@ -20,18 +20,21 @@ const credentialsLogin= CatchAsync(async(req:Request, res: Response,next:NextFun
 
 })
 
+
 const logout = CatchAsync(async(req:Request, res: Response, next:NextFunction) =>{
    res.clearCookie("accessToken", {
        httpOnly: true,
-       secure:true,
-       sameSite: "none"
+      secure: true,
+      sameSite: "none",
+     maxAge: 1000 * 60 * 60
    })
    res.clearCookie("refreshToken", {
-       httpOnly: true,
-       secure:true,
-       sameSite: "none"
+         httpOnly: true,
+      secure: true,
+      sameSite: "none",
+        maxAge: 1000 * 60 * 60 * 24 * 90
    })
-
+  console.log("logout successfully");
    sendResponse(res, {
     success:true,
     statusCode:httpStatus.OK,
