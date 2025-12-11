@@ -1,3 +1,4 @@
+import { closePath } from "pdfkit";
 import ApiError from "../../errorHelpers/ApiError";
 import { getProductAvailability } from "../../utils/getProductAvailability";
 import { IProduct } from "./product.interface"
@@ -18,6 +19,7 @@ const createProduct = async(payload:IProduct) =>{
 
 const updateProduct = async(productId:string, payload:IProduct) =>{
       const product = await Product.findByIdAndUpdate(productId,payload, {new:true})
+      console.log(product, "up");
     if(!product){
        throw new ApiError(401, "This product not created.")
     }

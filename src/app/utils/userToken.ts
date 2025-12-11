@@ -5,7 +5,7 @@ import { IsActive, IUser } from "../modules/user/user.interface";
 import { generateToken, verifyToken } from "./jwt";
 import { User } from "../modules/user/user.model";
 import ApiError from "../errorHelpers/ApiError";
-import { email } from "zod";
+
 
 
 export const createUserTokens = (user: Partial<IUser>) =>{

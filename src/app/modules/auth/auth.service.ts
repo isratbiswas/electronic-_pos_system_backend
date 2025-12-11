@@ -20,6 +20,7 @@ const credentialsLogin = async(payload: Partial<IUser>) => {
   const jwtPayload = {
     userId:isUserExist._id,
     email:isUserExist.email,
+    role: isUserExist.role,
     
   }
    console.log(jwtPayload, "bye");

@@ -7,7 +7,6 @@ export enum ProductAvailability {
 export  interface IProduct {
     name:string;
     category: string;
-    price: number;
     purchasePrice:number;
     stock:number;
     barcode?:string;

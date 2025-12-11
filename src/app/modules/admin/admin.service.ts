@@ -1,33 +1,77 @@
 import { Cart } from "../sell-product/sell.model"
 
 
-const profitReport = async() =>{
-    const result = await Cart.aggregate([{$unwind: "$items"},
-        {$lookup: {
-            from: "products",
-            localField:"items.product",
-            foreignField: "_id",
-            as: "productInfo"
-        }},
-        {$unwind: "$productInfo"},
-        {
-            $group: {
-                _id:null,
-                totalProfit: {
-                    $sum: {
-                        $multiply: [
-                            {$subtract: [  "$items.price", "$productInfo.purchasePrice",]},
-                            "$items.quantity"
-                        ]
-                    }
-                }
-            }
+const profitReport = async () => {
+  const result = await Cart.aggregate([
+    { $unwind: "$items" },
+    {
+      $lookup: {
+        from: "products",
+        localField: "items.product",
+        foreignField: "_id",
+        as: "productInfo"
+      }
+    },
+    { $unwind: "$productInfo" },
+    {
+      $addFields: {
+        orderDay: {
+          $dateToString: { format: "%Y-%m-%d", date: "$createdAt" }
+        },
+        itemProfit: {
+          $multiply: [
+            { $subtract: ["$items.price", "$productInfo.purchasePrice"] },
+            "$items.quantity"
+          ]
         }
-    ])
- console.log(result, "profit1");
-    return result [0]?.totalProfit || 0
+      }
+    },
+    {
+      $project: {
+        _id: 0,
+        orderDay: 1,
+        productName: "$productInfo.name",
+        purchasePrice: "$productInfo.purchasePrice",
+        soldPrice: "$items.price",
+        quantity: "$items.quantity",
+        profit: "$itemProfit",
+        loss: {
+          $cond: [{ $lt: ["$itemProfit", 0] }, { $abs: "$itemProfit" }, 0]
+        }
+      }
+    },
+    {
+      $group: {
+        _id: "$orderDay",
+        totalProfit: {
+          $sum: {
+            $cond: [{ $gt: ["$profit", 0] }, "$profit", 0]
+          }
+        },
+        totalLoss: {
+          $sum: {
+            $cond: [{ $lt: ["$profit", 0] }, { $abs: "$profit" }, 0]
+          }
+        },
+        items: {
+          $push: {
+            productName: "$productName",
+            purchasePrice: "$purchasePrice",
+            soldPrice: "$soldPrice",
+            quantity: "$quantity",
+            profit: "$profit",
+            loss: "$loss"
+          }
+        }
+      }
+    },
+    { $sort: { _id: 1 } }
+  ]);
 
-}
+  console.log(result, "dayWiseProfitAndLoss");
+  return result;
+};
+
 
 const getMonthlySales = async() => {
   const result = await Cart.aggregate([
@@ -35,7 +79,7 @@ const getMonthlySales = async() => {
         $group: {
           _id: {
             year: { $year: "$createdAt"},
-            month: {$month: "$createdAT"}
+            month: {$month: "$createdAt"}
           },
           totalSales : {$sum: "$totalAmount"},
           orders: {$sum: 1}

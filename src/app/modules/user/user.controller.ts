@@ -20,7 +20,9 @@ const createUser = CatchAsync(async(req:Request, res:Response, next: NextFunctio
 const getMe = CatchAsync(
   async (req: Request, res: Response, next: NextFunction) => {
     const decodedToken = req.user as JwtPayload;
+    console.log(decodedToken, "getMe");
     const result = await UserService.getMe(decodedToken.userId);
+    console.log(result , "getMe-1");
     sendResponse(res, {
       success: true,
       statusCode: httpStatus.OK,

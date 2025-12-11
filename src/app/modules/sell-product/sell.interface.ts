@@ -13,6 +13,7 @@ export interface ICart extends Document {
   customerId:string,
   customerName: string,
   name:string,
+  category:string,
   barcode:string,
   items: ICartItem[];
   totalAmount: number;

@@ -16,6 +16,7 @@ const cartSchema = new Schema<ICart>({
   customerId: {type: String},
   customerName: {type: String},
   name:{type:String, ref:"Product"},
+  category: {type:String, ref: "Product"},
   barcode: {type:String, ref:"Product"},
   items: [cartItemSchema],
   totalSellAmount:{type:Number,default:0},

@@ -37,6 +37,7 @@ const updateProduct = CatchAsync(async(req:Request, res: Response, next:NextFunc
     }
     const productId = req.params.id;
     const product= await ProductService.updateProduct(productId,payload);
+    console.log(product);
     sendResponse(res, {
         success:true,
         statusCode: httpStatus.OK,

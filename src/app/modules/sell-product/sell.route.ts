@@ -6,7 +6,7 @@ import { sellController } from "./sell.controller";
 const router = Router();
 
 router.post("/sell-product",  sellController.sellProduct);
-router.get("/",  sellController.getSellProducts);
+router.get("/all-orders",  sellController.getSellProducts);
 router.patch("/update/:id",  sellController.sellProductUpdate);
 // router.delete("/remove/:productId",  CartController.removeItem);
 // router.delete("/clear",  CartController.clearCart);

@@ -61,7 +61,9 @@ const updateUser = async (
   return newUpdatedUser;
 };
 const getMe = async (userId: string) => {
+ 
   const user = await User.findById(userId);
+  console.log(user, "getMe-3");
   return {
     data: user,
   };
