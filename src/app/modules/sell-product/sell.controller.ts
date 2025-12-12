@@ -70,6 +70,7 @@ import { ICart } from "./sell.interface";
 const sellProduct = CatchAsync(async(req:Request, res:Response, next:NextFunction) =>{
     // const productId= req.params.id
     const cart= await SellService.sellProduct(req.body)
+    console.log(cart , "cart-2");
     sendResponse(res, {
           statusCode: 201,
         success: true,

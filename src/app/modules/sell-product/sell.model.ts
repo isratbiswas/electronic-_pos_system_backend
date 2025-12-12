@@ -6,7 +6,7 @@ import { getProductAvailability } from "../../utils/getProductAvailability";
 
 // Cart item schema
 const cartItemSchema = new Schema<ICartItem>({
-  product: { type: Schema.Types.ObjectId, ref: "Product", required: true },
+  product: { type: Schema.Types.ObjectId, ref: "Product", },
   quantity: { type: Number, required: true, default: 1 },
   price: { type: Number, required: true },
 },{_id: false});
@@ -15,14 +15,15 @@ const cartItemSchema = new Schema<ICartItem>({
 const cartSchema = new Schema<ICart>({
   customerId: {type: String},
   customerName: {type: String},
-  name:{type:String, ref:"Product"},
-  category: {type:String, ref: "Product"},
+  // name:{type:String, ref:"Product"},
+  // category: {type:String, ref: "Product"},
   barcode: {type:String, ref:"Product"},
   items: [cartItemSchema],
   totalSellAmount:{type:Number,default:0},
   totalAmount: { type: Number, default: 0 },
   paymentAmount: {type:Number, default:0},
-  changeAmount:{type:Number, default:0}
+  changeAmount:{type:Number, default:0},
+  createdAt: { type: Date, default: Date.now },
 },
   {versionKey: false,
      timestamps: true });
