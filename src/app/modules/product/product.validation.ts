@@ -24,7 +24,7 @@ export const productSchema = z.object({
 
   purchasePrice: z
     .number({
-     error: "Purchase price must be a number",
+      error: "Purchase price must be a number",
     })
     .nonnegative("Purchase price must be >= 0"),
 
@@ -41,11 +41,9 @@ export const productSchema = z.object({
   productAvailable: ProductAvailabilityEnum.optional().default("IN_STOCK"),
 
   description: z.string().min(1, "Description is required"),
-
-  images: z
-    .array(z.string().min(1, "Image URL must be a non-empty string"))
-    .optional()
-    .default([]),
+  rating: z.number({
+    error: "Rating must be a number",
+  }),
 });
 export const updateProductSchema = productSchema.partial();
 

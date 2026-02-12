@@ -5,9 +5,9 @@ import { Role } from "../user/user.interface";
 
 const router = Router();
 
-(router.get(
+router.get(
   "/all-products",
-  checkAuth(Role.ADMIN, Role.SUPER_ADMIN, Role.MANAGER),
+  // checkAuth(Role.ADMIN, Role.SUPER_ADMIN, Role.MANAGER),
   ProductControllers.allProducts
 ),
   router.get(
@@ -25,6 +25,6 @@ const router = Router();
     "/:id",
     checkAuth(Role.ADMIN, Role.SUPER_ADMIN, Role.MANAGER),
     ProductControllers.deleteProduct
-  ));
+  );
 router.get("/low-stock", ProductControllers.getLowOrOutOfStockProducts);
 export const ProductRoutes = router;

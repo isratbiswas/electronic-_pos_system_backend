@@ -15,20 +15,11 @@ interface EnvConfig {
   JWT_REFRESH_EXPIRES: string;
   SUPER_ADMIN_EMAIL: string;
   SUPER_ADMIN_PASSWORD: string;
-  REDIS_HOST: string;
-  REDIS_PORT: string;
-  REDIS_USERNAME: string;
-  REDIS_PASSWORD: string;
-  CLOUDINARY: {
-    CLOUDINARY_CLOUD_NAME: string;
-    CLOUDINARY_API_KEY: string;
-    CLOUDINARY_API_SECRET: string;
-  };
 }
 
 const loadEnvVariables = (): EnvConfig => {
   const requiredEnvVariables: string[] = [
-    "port",
+    "PORT",
     "DB_URL",
     "NODE_ENV",
     "BCRYPT_SALT_ROUND",
@@ -38,13 +29,6 @@ const loadEnvVariables = (): EnvConfig => {
     "SUPER_ADMIN_PASSWORD",
     "JWT_REFRESH_SECRET",
     "JWT_REFRESH_EXPIRES",
-    "REDIS_HOST",
-    "REDIS_PORT",
-    "REDIS_USERNAME",
-    "REDIS_PASSWORD",
-    "CLOUDINARY_CLOUD_NAME",
-    "CLOUDINARY_API_KEY",
-    "CLOUDINARY_API_SECRET",
     "FRONTEND_URL",
   ];
   requiredEnvVariables.forEach((key) => {
@@ -53,7 +37,7 @@ const loadEnvVariables = (): EnvConfig => {
     }
   });
   return {
-    PORT: process.env.PORT as string,
+    PORT: (process.env.PORT as string) ?? 5001,
     DB_URL: process.env.DB_URL!,
     JWT_REFRESH_SECRET: process.env.JWT_REFRESH_SECRET as string,
     JWT_REFRESH_EXPIRES: process.env.JWT_REFRESH_EXPIRES as string,
@@ -64,15 +48,6 @@ const loadEnvVariables = (): EnvConfig => {
     JWT_ACCESS_EXPIRES: process.env.JWT_ACCESS_EXPIRES as string,
     SUPER_ADMIN_EMAIL: process.env.SUPER_ADMIN_EMAIL as string,
     SUPER_ADMIN_PASSWORD: process.env.SUPER_ADMIN_PASSWORD as string,
-    REDIS_HOST: process.env.REDIS_HOST as string,
-    REDIS_PORT: process.env.REDIS_PORT as string,
-    REDIS_USERNAME: process.env.REDIS_USERNAME as string,
-    REDIS_PASSWORD: process.env.REDIS_PASSWORD as string,
-    CLOUDINARY: {
-      CLOUDINARY_CLOUD_NAME: process.env.CLOUDINARY_CLOUD_NAME as string,
-      CLOUDINARY_API_KEY: process.env.CLOUDINARY_API_KEY as string,
-      CLOUDINARY_API_SECRET: process.env.CLOUDINARY_API_SECRET as string,
-    },
   };
 };
 

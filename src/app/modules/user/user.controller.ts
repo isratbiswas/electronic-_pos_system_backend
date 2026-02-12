@@ -6,23 +6,25 @@ import { JwtPayload } from "jsonwebtoken";
 import httpStatus from "http-status-codes";
 import ApiError from "../../errorHelpers/ApiError";
 
-const createUser = CatchAsync(async(req:Request, res:Response, next: NextFunction) =>{
-    const user= await UserService.createUser(req.body);
-   
-    sendResponse(res,{
-        success:true,
-        message: "User created successfully",
-        statusCode: 201,
-        data: user
-    })
-})
+const createUser = CatchAsync(
+  async (req: Request, res: Response, next: NextFunction) => {
+    const user = await UserService.createUser(req.body);
+
+    sendResponse(res, {
+      success: true,
+      message: "User created successfully",
+      statusCode: 201,
+      data: user,
+    });
+  }
+);
 
 const getMe = CatchAsync(
   async (req: Request, res: Response, next: NextFunction) => {
     const decodedToken = req.user as JwtPayload;
     console.log(decodedToken, "getMe");
     const result = await UserService.getMe(decodedToken.userId);
-    console.log(result , "getMe-1");
+    console.log(result, "getMe-1");
     sendResponse(res, {
       success: true,
       statusCode: httpStatus.OK,
@@ -54,19 +56,19 @@ const updateProfile = CatchAsync(
       throw new ApiError(400, "User not found");
     }
     const profile = await UserService.updateProfile(userId, req.body);
+    console.log(profile, "profile-10");
     sendResponse(res, {
       success: true,
       statusCode: httpStatus.CREATED,
-      message: "user profile updated successfully",
+      message: "profile updated successfully",
       data: profile,
     });
   }
 );
 
 export const UserController = {
-    createUser,
-    getMe,
-    updateProfile,
-    updateUser
-
-}
+  createUser,
+  getMe,
+  updateProfile,
+  updateUser,
+};
