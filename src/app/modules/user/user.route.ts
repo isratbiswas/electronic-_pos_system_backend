@@ -5,22 +5,20 @@ import { Role } from "./user.interface";
 import { validateRequest } from "../../middlewares/validRequest";
 import { createUserZodSchema, updateUserZodSchema } from "./user.validation";
 
-
 const router = Router();
 
 router.post("/register", UserController.createUser);
-router.get("/me" , checkAuth(...Object.values(Role)), UserController.getMe)
+router.get("/me", checkAuth(...Object.values(Role)), UserController.getMe);
 router.patch(
   "/me",
   checkAuth(...Object.values(Role)),
-  UserController.updateProfile
+  UserController.updateProfile,
 );
 router.patch(
   "/:id",
   validateRequest(updateUserZodSchema),
   checkAuth(...Object.values(Role)),
-  UserController.updateUser
+  UserController.updateUser,
 );
 
-export const UserRoutes= router;
-//  validateRequest(createUserZodSchema),
+export const UserRoutes = router;

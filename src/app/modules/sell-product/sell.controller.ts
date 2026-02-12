@@ -43,7 +43,7 @@ const getSellProducts = CatchAsync(
     const sellProducts = await SellService.getSellProducts(
       query as Record<string, string>,
     );
-    // console.log(sellProducts ,"red");
+
     sendResponse(res, {
       statusCode: 200,
       success: true,
