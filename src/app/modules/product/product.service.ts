@@ -1,3 +1,4 @@
+import { excludeField } from "../../constants";
 import ApiError from "../../errorHelpers/ApiError";
 import { getProductAvailability } from "../../utils/getProductAvailability";
 import { productSearchableFields } from "./product.constant";
@@ -39,16 +40,34 @@ const deleteProduct = async (productId: string) => {
   return product;
 };
 const allProducts = async (query: Record<string, string>) => {
-  const filter = query;
+  const filter = { ...query };
   const searchTerm = query.searchTerm || "";
   delete filter["searchTerm"];
+
+  excludeField.forEach((field) => delete filter[field]);
 
   const searchQuery = {
     $or: productSearchableFields.map((field) => ({
       [field]: { $regex: searchTerm, $options: "i" },
     })),
   };
-  const products = await Product.find(searchQuery).sort({ name: 1 });
+
+  const finalQuery = {
+    ...filter,
+    ...(searchTerm && searchQuery),
+  };
+
+  const page = Number(query.page) || 1;
+  const limit = Number(query.limit) || 8;
+  const skip = (page - 1) * limit;
+
+  const sortBy = query.sort ? query.sort : "name";
+
+  const total = await Product.countDocuments(finalQuery);
+  const products = await Product.find(finalQuery)
+    .sort(sortBy)
+    .skip(skip)
+    .limit(limit);
 
   const productsWithAvailability = products.map((product) => ({
     ...product.toObject(),
@@ -57,7 +76,15 @@ const allProducts = async (query: Record<string, string>) => {
       product.productAvailable!,
     ),
   }));
-  return productsWithAvailability;
+  return {
+    meta: {
+      page,
+      limit,
+      total,
+      totalPage: Math.ceil(total / limit),
+    },
+    data: productsWithAvailability,
+  };
 };
 const productDetails = async (productId: string) => {
   const product = await Product.findById(productId);

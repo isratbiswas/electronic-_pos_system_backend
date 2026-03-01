@@ -1,17 +1,11 @@
 import { z } from "zod";
 
-/**
- * ProductAvailability enum values — change/add values as you need.
- */
 export const ProductAvailabilityEnum = z.enum([
   "IN_STOCK",
   "OUT_OF_STOCK",
   "LOW_STOCK",
 ]);
 
-/**
- * Zod schema for product creation / update
- */
 export const productSchema = z.object({
   name: z.string().min(1, "Name is required"),
   category: z.string().min(1, "Category is required"),

@@ -15,9 +15,8 @@ const productSchema = new Schema<IProduct>(
     barcode: { type: String },
     description: { type: String, trim: true },
     rating: { type: Number, min: 1, max: 5, default: 5 },
-    // images: {type: String}
   },
-  { timestamps: true }
+  { timestamps: true },
 );
 
 //static method
