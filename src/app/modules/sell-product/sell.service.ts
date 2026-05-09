@@ -1,4 +1,4 @@
-import { excludeField } from "../../constants";
+import { excludeField } from "../../utils/constants";
 import ApiError from "../../errorHelpers/ApiError";
 import { Product } from "../product/product.model";
 import { ICart } from "./sell.interface";
@@ -127,7 +127,7 @@ const getSellProducts = async (query: Record<string, string>) => {
       filter.createdAt.$gte = new Date(startDate);
     }
     if (endDate) {
-      filter.creatdAt.$lte = new Date(endDate);
+      filter.createdAt.$lte = new Date(endDate);
     }
   }
 

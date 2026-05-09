@@ -1,4 +1,4 @@
-import { excludeField } from "../../constants";
+import { excludeField } from "../../utils/constants";
 import ApiError from "../../errorHelpers/ApiError";
 import { getProductAvailability } from "../../utils/getProductAvailability";
 import { productSearchableFields } from "./product.constant";
